@@ -124,7 +124,7 @@ class RGQLHandler
                         ]
                     ],
                     'resolve' => function ($root, $args) {
-                        return Manager::getService("Taxonomy")->findById($args["id"]);
+                        return Manager::getService("RGQLRubedoConnector")->resolve(["collection"=>"Taxonomy"],$args);
                     },
                 ],
                 'taxonomies' => [
@@ -133,8 +133,7 @@ class RGQLHandler
 
                     ],
                     'resolve' => function ($root, $args) {
-                        $filter=Filter::factory();
-                        return Manager::getService("Taxonomy")->getList($filter)["data"];
+                        return Manager::getService("RGQLRubedoConnector")->resolve(["collection"=>"Taxonomy","multivalued"=>true],$args);
                     },
                 ]
             ]
