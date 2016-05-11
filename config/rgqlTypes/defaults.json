@@ -1,35 +1,35 @@
-[
-  {
-    "name":"Taxonomy",
-    "singularEndpoint":"taxonomy",
-    "pluralEndpoint":"taxonomies",
-    "exposed":true,
-    "singleQueryArgs":{
-      "id":{
-        "type":"String",
-        "required":true
+{
+  "Taxonomy": {
+    "name": "Taxonomy",
+    "singularEndpoint": "taxonomy",
+    "pluralEndpoint": "taxonomies",
+    "exposed": true,
+    "singleQueryArgs": {
+      "id": {
+        "type": "String",
+        "required": true
       }
     },
-    "pluralQueryArgs":{
-
+    "pluralQueryArgs": {
     },
-    "fields":{
-      "id":{
-        "type":"String",
-        "required":true
+    "fields": {
+      "id": {
+        "type": "String",
+        "required": true
       },
-      "name":{
-        "type":"String"
+      "name": {
+        "type": "String"
       },
-      "multiSelect":{
-        "type":"Boolean"
+      "multiSelect": {
+        "type": "Boolean"
       },
-      "readOnly":{
-        "type":"Boolean"
+      "readOnly": {
+        "type": "Boolean"
       },
-      "inputAsTree":{
-        "type":"Boolean"
+      "inputAsTree": {
+        "type": "Boolean"
       }
     }
   }
-]
+}
+
