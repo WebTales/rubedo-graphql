@@ -32,8 +32,6 @@ class RGQLHandler
                 $variableValues,
                 $operationName
             );
-            Debug::dump($result);
-            die("test");
         } catch (Exception $exception) {
             $result = [
                 'errors' => [

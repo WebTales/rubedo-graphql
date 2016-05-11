@@ -35,11 +35,33 @@ class GraphqlResource extends AbstractResource
             ->setName('Graphql')
             ->setDescription('Rubedo graphql endpoint')
             ->editVerb('get', function (VerbDefinitionEntity &$verbDef) {
-                $verbDef->setDescription('Execute graphql GET query')
+                $verbDef->setDescription('Execute graphql query with GET')
                     ->addInputFilter(
                         (new FilterDefinitionEntity())
                             ->setKey('query')
-                            ->setRequired()
+                            ->setDescription('Graphql query')
+                    )->addInputFilter(
+                        (new FilterDefinitionEntity())
+                            ->setKey('operation')
+                            ->setDescription('Graphql query')
+                    )->addInputFilter(
+                        (new FilterDefinitionEntity())
+                            ->setKey('variables')
+                            ->setDescription('Graphql query')
+                    );
+            })->editVerb('post', function (VerbDefinitionEntity &$verbDef) {
+                $verbDef->setDescription('Execute graphql query with POST')
+                    ->addInputFilter(
+                        (new FilterDefinitionEntity())
+                            ->setKey('query')
+                            ->setDescription('Graphql query')
+                    )->addInputFilter(
+                        (new FilterDefinitionEntity())
+                            ->setKey('operation')
+                            ->setDescription('Graphql query')
+                    )->addInputFilter(
+                        (new FilterDefinitionEntity())
+                            ->setKey('variables')
                             ->setDescription('Graphql query')
                     );
             });
@@ -47,11 +69,22 @@ class GraphqlResource extends AbstractResource
 
     public function getAction($params)
     {
-        $result=Manager::getService("RGQLHandler")->execute($params["query"]);
-        return [
-            "success"=>true,
-            "result"=>$result
-        ];
+        $this->forwardToGraphQL($params);
+    }
+
+    public function postAction($params)
+    {
+        $this->forwardToGraphQL($params);
+    }
+
+    protected function forwardToGraphQL($params){
+        $requestString = isset($params['query']) ? $params['query'] : null;
+        $operationName = isset($params['operation']) ? $params['operation'] : null;
+        $variableValues = isset($params['variables']) ? $params['variables'] : null;
+        $result=Manager::getService("RGQLHandler")->execute($requestString,$variableValues,$operationName);
+        header('Content-Type: application/json');
+        echo json_encode($result);
+        die();
     }
 
 
