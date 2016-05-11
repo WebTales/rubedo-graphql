@@ -1,13 +1,17 @@
 [
   {
     "name":"Taxonomy",
-    "fieldName":"taxonomy",
+    "singularEndpoint":"taxonomy",
+    "pluralEndpoint":"taxonomies",
     "exposed":true,
-    "queryArgs":{
+    "singleQueryArgs":{
       "id":{
         "type":"String",
         "required":true
       }
+    },
+    "pluralQueryArgs":{
+
     },
     "fields":{
       "id":{

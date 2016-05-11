@@ -11,6 +11,7 @@ use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use Rubedo\Services\Manager;
+use WebTales\MongoFilters\Filter;
 use Zend\Debug\Debug;
 use Zend\Json\Json;
 
@@ -72,6 +73,8 @@ class RGQLHandler
     }
 
     protected function initSchema(){
+
+
         $Taxonomy = new ObjectType([
             'name' => 'Taxonomy',
             'description' => 'Taxo',
@@ -107,6 +110,16 @@ class RGQLHandler
                     ],
                     'resolve' => function ($root, $args) {
                         return Manager::getService("Taxonomy")->findById($args["id"]);
+                    },
+                ],
+                'taxonomies' => [
+                    'type' => Type::listOf($Taxonomy),
+                    'args' => [
+
+                    ],
+                    'resolve' => function ($root, $args) {
+                        $filter=Filter::factory();
+                        return Manager::getService("Taxonomy")->getList($filter)["data"];
                     },
                 ]
             ]
