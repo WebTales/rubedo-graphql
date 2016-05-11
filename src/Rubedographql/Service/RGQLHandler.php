@@ -21,6 +21,8 @@ class RGQLHandler
 
     protected $rgqlTypes = [ ];
 
+    protected $rgqlConnectors = [ ];
+
     protected $schema = null;
 
     public function __construct()
@@ -51,7 +53,6 @@ class RGQLHandler
     }
 
     protected function initRgqlBaseTypes(){
-        $config=Manager::getService("config");
         $this->rgqlTypes=[
             "String"=>Type::string(),
             "Int"=>Type::int(),
@@ -63,6 +64,7 @@ class RGQLHandler
 
     protected function initRgqlTypeDefs(){
         $config=Manager::getService("config");
+        $this->rgqlConnectors=$config["rgqlConnectors"];
         foreach ($config["rgqlTypeFiles"] as $jsonFilePath){
             if (is_file($jsonFilePath)) {
                 $tempJson = file_get_contents($jsonFilePath);
