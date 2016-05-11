@@ -106,9 +106,6 @@ class RGQLHandler
                 ],
                 'createUser'=>[
                     'type'=>$CreateUser,
-                    'resolve'=>function($item){
-                        return $item["createUser"];
-                    },
                 ],
 
             ],
