@@ -18,6 +18,7 @@
 namespace Rubedographql\Rest\V1;
 
 
+use Rubedo\Services\Manager;
 use RubedoAPI\Rest\V1\AbstractResource;
 use RubedoAPI\Entities\API\Definition\FilterDefinitionEntity;
 use RubedoAPI\Entities\API\Definition\VerbDefinitionEntity;
@@ -38,7 +39,6 @@ class GraphqlResource extends AbstractResource
                     ->addInputFilter(
                         (new FilterDefinitionEntity())
                             ->setKey('query')
-                            ->setFilter("string")
                             ->setRequired()
                             ->setDescription('Graphql query')
                     );
@@ -47,10 +47,10 @@ class GraphqlResource extends AbstractResource
 
     public function getAction($params)
     {
-
+        $result=Manager::getService("RGQLHandler")->execute($params["query"]);
         return [
-            "success"=>false,
-            "message"=>"WIP",
+            "success"=>true,
+            "result"=>$result
         ];
     }
 
