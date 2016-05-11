@@ -21,6 +21,8 @@ class RGQLHandler
 
     protected $rgqlTypes = [ ];
 
+    protected $rgqlQueryFields = [ ];
+
     protected $rgqlConnectors = [ ];
 
     protected $schema = null;
@@ -73,9 +75,35 @@ class RGQLHandler
             }
         }
     }
+    protected function loadRGQLType($typeName,$type){
+        $typeArray=[
+            "name"=>$type["name"],
+            "fields"=>[]
+        ];
+        foreach($type["fields"] as $fieldKey=>$fieldValue){
+            $typeArray["fields"][$fieldKey]=$this->buildField($fieldKey,$fieldValue);
+        }
+        $this->rgqlTypes[$typeName]=new ObjectType($typeArray);
+    }
 
+    protected function buildField($fieldKey,$fieldValue){
+        $baseTypeResult=$this->rgqlTypes[$fieldValue["type"]];
+        if(isset($fieldValue["multivalued"])&&$fieldValue["multivalued"]){
+            $baseTypeResult=Type::listOf($baseTypeResult);
+        }
+        if(isset($fieldValue["required"])&&$fieldValue["required"]){
+            $baseTypeResult=Type::nonNull($baseTypeResult);
+        }
+        $fieldResult=[
+            "type"=>$baseTypeResult
+        ];
+        return $fieldResult;
+    }
     protected function initSchema(){
 
+        foreach($this->rgqlTypeDefs as $key=>$value){
+            $this->loadRGQLType($key,$value);
+        }
         $CreateUser = new ObjectType([
             'name' => 'CreateUser',
             'fields' => [
@@ -88,36 +116,36 @@ class RGQLHandler
             ],
         ]);
 
-        $Taxonomy = new ObjectType([
-            'name' => 'Taxonomy',
-            'fields' => [
-                'id' => [
-                    'type' => Type::nonNull(Type::string()),
-                ],
-                'name' => [
-                    'type' => Type::string(),
-                ],
-                'multiSelect' => [
-                    'type' => Type::boolean(),
-                ],
-                'readOnly' => [
-                    'type' => Type::boolean(),
-                ],
-                'inputAsTree' => [
-                    'type' => Type::boolean(),
-                ],
-                'createUser'=>[
-                    'type'=>$CreateUser,
-                ],
-
-            ],
-        ]);
+//        $Taxonomy = new ObjectType([
+//            'name' => 'Taxonomy',
+//            'fields' => [
+//                'id' => [
+//                    'type' => Type::nonNull(Type::string()),
+//                ],
+//                'name' => [
+//                    'type' => Type::string(),
+//                ],
+//                'multiSelect' => [
+//                    'type' => Type::boolean(),
+//                ],
+//                'readOnly' => [
+//                    'type' => Type::boolean(),
+//                ],
+//                'inputAsTree' => [
+//                    'type' => Type::boolean(),
+//                ],
+//                'createUser'=>[
+//                    'type'=>$CreateUser,
+//                ],
+//
+//            ],
+//        ]);
 
         $queryType = new ObjectType([
             'name' => 'Query',
             'fields' => [
                 'taxonomy' => [
-                    'type' => $Taxonomy,
+                    'type' => $this->rgqlTypes["Taxonomy"],
                     'args' => [
                         'id' => [
                             'type' => Type::nonNull(Type::string())
@@ -128,7 +156,7 @@ class RGQLHandler
                     },
                 ],
                 'taxonomies' => [
-                    'type' => Type::listOf($Taxonomy),
+                    'type' => Type::listOf($this->rgqlTypes["Taxonomy"]),
                     'args' => [
 
                     ],
