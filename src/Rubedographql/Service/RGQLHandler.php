@@ -16,12 +16,15 @@ use Zend\Json\Json;
 
 class RGQLHandler
 {
-    protected $rgqlTypeDefs= [ ];
+    protected $rgqlTypeDefs = [ ];
+
+    protected $rgqlTypes = [ ];
 
     protected $schema = null;
 
     public function __construct()
     {
+        $this->initRgqlBaseTypes();
         $this->initRgqlTypeDefs();
         $this->initSchema();
     }
@@ -46,6 +49,17 @@ class RGQLHandler
         return $result;
     }
 
+    protected function initRgqlBaseTypes(){
+        $config=Manager::getService("config");
+        $this->rgqlTypes=[
+            "String"=>Type::string(),
+            "Int"=>Type::int(),
+            "Float"=>Type::float(),
+            "Boolean"=>Type::boolean(),
+            "ID"=>Type::id(),
+        ];
+    }
+
     protected function initRgqlTypeDefs(){
         $config=Manager::getService("config");
         foreach ($config["rgqlTypeFiles"] as $jsonFilePath){
@@ -55,8 +69,6 @@ class RGQLHandler
                 $this->rgqlTypeDefs = array_merge($this->rgqlTypeDefs, $tempArray);
             }
         }
-//        Debug::dump($this->rgqlTypeDefs);
-//        die("test");
     }
 
     protected function initSchema(){
