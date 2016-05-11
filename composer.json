@@ -1,0 +1,14 @@
+{
+    "name": "webtales/Rubedographql",
+    "require": {
+        "php": ">=5.3.0",
+        "webonyx/graphql-php": "dev-master"
+    },
+    "autoload": {
+        "classmap": ["src/Rubedographql"]
+    },
+  "config": {
+    "process-timeout": 600,
+    "vendor-dir": "deps"
+  }
+}
