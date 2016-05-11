@@ -55,6 +55,8 @@ class RGQLHandler
                 $this->rgqlTypeDefs = array_merge($this->rgqlTypeDefs, $tempArray);
             }
         }
+//        Debug::dump($this->rgqlTypeDefs);
+//        die("test");
     }
 
     protected function initSchema(){
