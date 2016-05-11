@@ -8,4 +8,8 @@ return array(
     'namespaces_api' => array(
         'Rubedographql',
     ),
+    'rgqlTypeFiles'=>array(
+        realpath(__DIR__ . "/rgqlTypes/") . '/system.json',
+        realpath(__DIR__ . "/rgqlTypes/") . '/defaults.json'
+    )
 );

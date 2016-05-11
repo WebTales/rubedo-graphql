@@ -12,13 +12,17 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use Rubedo\Services\Manager;
 use Zend\Debug\Debug;
+use Zend\Json\Json;
 
 class RGQLHandler
 {
+    protected $rgqlTypeDefs= [ ];
+
     protected $schema = null;
 
     public function __construct()
     {
+        $this->initRgqlTypeDefs();
         $this->initSchema();
     }
 
@@ -40,6 +44,17 @@ class RGQLHandler
             ];
         }
         return $result;
+    }
+
+    protected function initRgqlTypeDefs(){
+        $config=Manager::getService("config");
+        foreach ($config["rgqlTypeFiles"] as $jsonFilePath){
+            if (is_file($jsonFilePath)) {
+                $tempJson = file_get_contents($jsonFilePath);
+                $tempArray = Json::decode($tempJson, Json::TYPE_ARRAY);
+                $this->rgqlTypeDefs = array_merge($this->rgqlTypeDefs, $tempArray);
+            }
+        }
     }
 
     protected function initSchema(){
