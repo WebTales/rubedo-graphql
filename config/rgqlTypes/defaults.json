@@ -51,6 +51,16 @@
         "type": "String",
         "required": true
       },
+      "terms":{
+        "type":"Term",
+        "multivalued":true,
+        "args":{
+          "text": {
+            "type": "String"
+          }
+        },
+        "relation":{"vocabularyId":"id"}
+      },
       "name": {
         "type": "String"
       },

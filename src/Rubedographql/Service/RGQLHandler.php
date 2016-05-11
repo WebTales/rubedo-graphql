@@ -136,6 +136,25 @@ class RGQLHandler
         $fieldResult=[
             "type"=>$baseTypeResult
         ];
+        if(!empty($fieldValue["args"])&&is_array($fieldValue["args"])){
+            $fieldResult["args"]=[ ];
+            foreach($fieldValue["args"] as $eargFieldKey=>$eargFieldValue){
+                $fieldResult["args"][$eargFieldKey]=$this->buildField($eargFieldKey,$eargFieldValue);
+            }
+        }
+        if (isset($this->rgqlTypeDefs[$fieldValue["type"]],$this->rgqlTypeDefs[$fieldValue["type"]]["connector"])){
+            $connectorConfig=$this->rgqlTypeDefs[$fieldValue["type"]]["connector"]["configs"];
+            $conectorType=$this->rgqlConnectors[$this->rgqlTypeDefs[$fieldValue["type"]]["connector"]["type"]];
+            $multivalued=isset($fieldValue["multivalued"])&&$fieldValue["multivalued"];
+            $relation=isset($fieldValue["relation"])&&is_array($fieldValue["relation"]) ? $fieldValue["relation"] : [];
+            $fieldResult["resolve"]=function ($obj,$args=[]) use ($conectorType,$connectorConfig,$multivalued,$relation){
+                foreach($relation as $relKey=>$relValue){
+                    $args[$relKey]=$obj[$relValue];
+                }
+                return Manager::getService($conectorType)->resolve($connectorConfig,$args,$multivalued);
+            };
+
+        }
         return $fieldResult;
     }
     protected function initSchema(){
