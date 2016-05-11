@@ -29,6 +29,12 @@
       "inputAsTree": {
         "type": "Boolean"
       }
+    },
+    "connector":{
+      "type":"Rubedo",
+      "configs":{
+        "collection":"Taxonomy"
+      }
     }
   }
 }

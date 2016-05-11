@@ -9,11 +9,10 @@ use \Exception;
 
 class RGQLRubedoConnector
 {
-    public function resolve($configs=[],$args=[]){
+    public function resolve($configs=[],$args=[],$multivalued=false){
         if(empty($configs["collection"])){
             throw new Exception('RGQLRubedoConnector requires valid collection');
         }
-        $multivalued=isset($configs["multivalued"])&&$configs["multivalued"];
         $filter=Filter::factory();
         foreach($args as $key=>$value){
             if($key=="id"){
