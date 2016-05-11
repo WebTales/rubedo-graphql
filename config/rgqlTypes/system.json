@@ -1,3 +1,16 @@
 {
-
+  "CreateUser":{
+    "name": "CreateUser",
+    "exposed": false,
+    "pluralQueryArgs": {
+    },
+    "fields": {
+      "id": {
+        "type": "String"
+      },
+      "fullName": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -28,6 +28,9 @@
       },
       "inputAsTree": {
         "type": "Boolean"
+      },
+      "createUser": {
+        "type": "CreateUser"
       }
     },
     "connector":{

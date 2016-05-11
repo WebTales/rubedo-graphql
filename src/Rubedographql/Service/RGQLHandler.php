@@ -104,42 +104,6 @@ class RGQLHandler
         foreach($this->rgqlTypeDefs as $key=>$value){
             $this->loadRGQLType($key,$value);
         }
-        $CreateUser = new ObjectType([
-            'name' => 'CreateUser',
-            'fields' => [
-                'id' => [
-                    'type' => Type::string(),
-                ],
-                'fullName' => [
-                    'type' => Type::string(),
-                ],
-            ],
-        ]);
-
-//        $Taxonomy = new ObjectType([
-//            'name' => 'Taxonomy',
-//            'fields' => [
-//                'id' => [
-//                    'type' => Type::nonNull(Type::string()),
-//                ],
-//                'name' => [
-//                    'type' => Type::string(),
-//                ],
-//                'multiSelect' => [
-//                    'type' => Type::boolean(),
-//                ],
-//                'readOnly' => [
-//                    'type' => Type::boolean(),
-//                ],
-//                'inputAsTree' => [
-//                    'type' => Type::boolean(),
-//                ],
-//                'createUser'=>[
-//                    'type'=>$CreateUser,
-//                ],
-//
-//            ],
-//        ]);
 
         $queryType = new ObjectType([
             'name' => 'Query',
