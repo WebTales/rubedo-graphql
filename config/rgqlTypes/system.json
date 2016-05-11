@@ -1,7 +1,7 @@
 {
   "CreateUser":{
     "name": "CreateUser",
-    "exposed": false,
+    "expose": false,
     "pluralQueryArgs": {
     },
     "fields": {

@@ -11,7 +11,6 @@ use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use Rubedo\Services\Manager;
-use WebTales\MongoFilters\Filter;
 use Zend\Debug\Debug;
 use Zend\Json\Json;
 
@@ -84,6 +83,46 @@ class RGQLHandler
             $typeArray["fields"][$fieldKey]=$this->buildField($fieldKey,$fieldValue);
         }
         $this->rgqlTypes[$typeName]=new ObjectType($typeArray);
+        if(isset($type["expose"])&&$type["expose"]){
+            if (!empty($type["singularEndpoint"])){
+                $queryArray=[
+                    "type"=>$this->rgqlTypes[$typeName],
+                ];
+                if(!empty($type["singleQueryArgs"])&&is_array($type["singleQueryArgs"])){
+                    $queryArray["args"]=[ ];
+                    foreach($type["singleQueryArgs"] as $sargFieldKey=>$sargFieldValue){
+                        $queryArray["args"][$sargFieldKey]=$this->buildField($sargFieldKey,$sargFieldValue);
+                    }
+                }
+                if(!empty($type["connector"])&&is_array($type["connector"])){
+                    $connectorConfig=$type["connector"]["configs"];
+                    $conectorType=$this->rgqlConnectors[$type["connector"]["type"]];
+                    $queryArray["resolve"]=function ($root, $args) use ($conectorType,$connectorConfig){
+                        return Manager::getService($conectorType)->resolve($connectorConfig,$args);
+                    };
+                }
+                $this->rgqlQueryFields[$type["singularEndpoint"]]=$queryArray;
+            }
+            if (!empty($type["multiEndpoint"])){
+                $queryArray=[
+                    "type"=>Type::listOf($this->rgqlTypes[$typeName]),
+                ];
+                if(!empty($type["multiQueryArgs"])&&is_array($type["multiQueryArgs"])){
+                    $queryArray["args"]=[ ];
+                    foreach($type["multiQueryArgs"] as $margFieldKey=>$margFieldValue){
+                        $queryArray["args"][$margFieldKey]=$this->buildField($margFieldKey,$margFieldValue);
+                    }
+                }
+                if(!empty($type["connector"])&&is_array($type["connector"])){
+                    $connectorConfig=$type["connector"]["configs"];
+                    $conectorType=$this->rgqlConnectors[$type["connector"]["type"]];
+                    $queryArray["resolve"]=function ($root, $args) use ($conectorType,$connectorConfig){
+                        return Manager::getService($conectorType)->resolve($connectorConfig,$args,true);
+                    };
+                }
+                $this->rgqlQueryFields[$type["multiEndpoint"]]=$queryArray;
+            }
+        }
     }
 
     protected function buildField($fieldKey,$fieldValue){
@@ -107,28 +146,7 @@ class RGQLHandler
 
         $queryType = new ObjectType([
             'name' => 'Query',
-            'fields' => [
-                'taxonomy' => [
-                    'type' => $this->rgqlTypes["Taxonomy"],
-                    'args' => [
-                        'id' => [
-                            'type' => Type::nonNull(Type::string())
-                        ]
-                    ],
-                    'resolve' => function ($root, $args) {
-                        return Manager::getService("RGQLRubedoConnector")->resolve(["collection"=>"Taxonomy"],$args);
-                    },
-                ],
-                'taxonomies' => [
-                    'type' => Type::listOf($this->rgqlTypes["Taxonomy"]),
-                    'args' => [
-
-                    ],
-                    'resolve' => function ($root, $args) {
-                        return Manager::getService("RGQLRubedoConnector")->resolve(["collection"=>"Taxonomy"],$args,true);
-                    },
-                ]
-            ]
+            'fields' => $this->rgqlQueryFields
         ]);
 
         $this->schema = new Schema($queryType);
