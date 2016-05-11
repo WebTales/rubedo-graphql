@@ -74,10 +74,20 @@ class RGQLHandler
 
     protected function initSchema(){
 
+        $CreateUser = new ObjectType([
+            'name' => 'CreateUser',
+            'fields' => [
+                'id' => [
+                    'type' => Type::string(),
+                ],
+                'fullName' => [
+                    'type' => Type::string(),
+                ],
+            ],
+        ]);
 
         $Taxonomy = new ObjectType([
             'name' => 'Taxonomy',
-            'description' => 'Taxo',
             'fields' => [
                 'id' => [
                     'type' => Type::nonNull(Type::string()),
@@ -93,6 +103,12 @@ class RGQLHandler
                 ],
                 'inputAsTree' => [
                     'type' => Type::boolean(),
+                ],
+                'createUser'=>[
+                    'type'=>$CreateUser,
+                    'resolve'=>function($item){
+                        return $item["createUser"];
+                    },
                 ],
 
             ],
