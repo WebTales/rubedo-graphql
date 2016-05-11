@@ -21,7 +21,7 @@ return array(
                     'route' => '/graphql',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Rubedographql\\Frontoffice\\Controller',
-                        'controller' => 'rgql',
+                        'controller' => 'stripe-payment-logs',
                         'action' => 'index'
                     ),
                 ),
