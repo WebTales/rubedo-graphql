@@ -164,8 +164,10 @@
       "id": {
         "type": "String"
       },
-      "typeId": {
-        "type": "String"
+      "type": {
+        "type":"ContentType",
+        "multivalued":false,
+        "relation":{"id":"typeId"}
       },
       "title": {
         "type": "String"
@@ -178,6 +180,34 @@
       "type":"Rubedo",
       "configs":{
         "index":"all"
+      }
+    }
+  },
+  "ContentType": {
+    "name": "contentType",
+    "multiEndpoint": "contentTypes",
+    "expose": true,
+    "singleQueryArgs": {
+      "id": {
+        "type": "String",
+        "required": true
+      }
+    },
+    "multiQueryArgs": {
+    },
+    "fields": {
+      "id": {
+        "type": "String",
+        "required": true
+      },
+      "code": {
+        "type": "String"
+      }
+    },
+    "connector":{
+      "type":"Rubedo",
+      "configs":{
+        "collection":"ContentTypes"
       }
     }
   }
