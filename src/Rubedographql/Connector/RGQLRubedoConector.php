@@ -16,9 +16,17 @@ class RGQLRubedoConnector
         $filter=Filter::factory();
         foreach($args as $key=>$value){
             if($key=="id"){
-                $filter->addFilter(Filter::factory("Uid")->setValue($value));
+                if (is_array($value)){
+                    $filter->addFilter(Filter::factory("InUid")->setValue($value));
+                } else {
+                    $filter->addFilter(Filter::factory("Uid")->setValue($value));
+                }
             } else {
-                $filter->addFilter(Filter::factory("Value")->setName($key)->setValue($value));
+                if (is_array($value)){
+                    $filter->addFilter(Filter::factory("In")->setName($key)->setValue($value));
+                } else {
+                    $filter->addFilter(Filter::factory("Value")->setName($key)->setValue($value));
+                }
             }
         }
         $service=Manager::getService($configs["collection"]);
