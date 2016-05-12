@@ -1,4 +1,38 @@
 {
+  "Term": {
+    "name": "Term",
+    "multiEndpoint": "terms",
+    "expose": true,
+    "singleQueryArgs": {
+      "id": {
+        "type": "String",
+        "required": true
+      }
+    },
+    "multiQueryArgs": {
+    },
+    "fields": {
+      "id": {
+        "type": "String",
+        "required": true
+      },
+      "text": {
+        "type": "String"
+      },
+      "orderValue": {
+        "type": "Int"
+      },
+      "createUser": {
+        "type": "CreateUser"
+      }
+    },
+    "connector":{
+      "type":"Rubedo",
+      "configs":{
+        "collection":"TaxonomyTerms"
+      }
+    }
+  },
   "Taxonomy": {
     "name": "Taxonomy",
     "singularEndpoint": "taxonomy",
@@ -50,9 +84,9 @@
       }
     }
   },
-  "Term": {
-    "name": "Term",
-    "multiEndpoint": "terms",
+  "User": {
+    "name": "user",
+    "multiEndpoint": "users",
     "expose": true,
     "singleQueryArgs": {
       "id": {
@@ -67,23 +101,51 @@
         "type": "String",
         "required": true
       },
-      "text": {
+      "name": {
         "type": "String"
       },
-      "orderValue": {
-        "type": "Int"
+      "email": {
+        "type": "String"
       },
-      "createUser": {
-        "type": "CreateUser"
+      "groups":{
+        "type":"Group",
+        "multivalued":true,
+        "relation":{"id":"groups"}
       }
     },
     "connector":{
       "type":"Rubedo",
       "configs":{
-        "collection":"TaxonomyTerms"
+        "collection":"Users"
+      }
+    }
+  },
+  "Group": {
+    "name": "Group",
+    "multiEndpoint": "groups",
+    "expose": true,
+    "singleQueryArgs": {
+      "id": {
+        "type": "String",
+        "required": true
+      }
+    },
+    "multiQueryArgs": {
+    },
+    "fields": {
+      "id": {
+        "type": "String",
+        "required": true
+      },
+      "name": {
+        "type": "String"
+      }
+    },
+    "connector":{
+      "type":"Rubedo",
+      "configs":{
+        "collection":"Groups"
       }
     }
   }
-
 }
-
