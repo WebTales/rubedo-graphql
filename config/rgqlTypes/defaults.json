@@ -147,5 +147,38 @@
         "collection":"Groups"
       }
     }
+  },
+  "Search": {
+    "name": "search",
+    "multiEndpoint": "searches",
+    "expose": true,
+    "singleQueryArgs": {
+    },
+    "multiQueryArgs": {
+      "query": {
+        "type": "String",
+        "required": false
+      }
+    },
+    "fields": {
+      "id": {
+        "type": "String"
+      },
+      "typeId": {
+        "type": "String"
+      },
+      "title": {
+        "type": "String"
+      },
+      "score": {
+        "type": "Float"
+      }
+    },
+    "connector":{
+      "type":"Rubedo",
+      "configs":{
+        "index":"all"
+      }
+    }
   }
 }
