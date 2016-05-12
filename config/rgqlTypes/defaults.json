@@ -1,38 +1,4 @@
 {
-  "Term": {
-    "name": "Term",
-    "multiEndpoint": "terms",
-    "expose": true,
-    "singleQueryArgs": {
-      "id": {
-        "type": "String",
-        "required": true
-      }
-    },
-    "multiQueryArgs": {
-    },
-    "fields": {
-      "id": {
-        "type": "String",
-        "required": true
-      },
-      "text": {
-        "type": "String"
-      },
-      "orderValue": {
-        "type": "Int"
-      },
-      "createUser": {
-        "type": "CreateUser"
-      }
-    },
-    "connector":{
-      "type":"Rubedo",
-      "configs":{
-        "collection":"TaxonomyTerms"
-      }
-    }
-  },
   "Taxonomy": {
     "name": "Taxonomy",
     "singularEndpoint": "taxonomy",
@@ -83,6 +49,41 @@
         "collection":"Taxonomy"
       }
     }
+  },
+  "Term": {
+    "name": "Term",
+    "multiEndpoint": "terms",
+    "expose": true,
+    "singleQueryArgs": {
+      "id": {
+        "type": "String",
+        "required": true
+      }
+    },
+    "multiQueryArgs": {
+    },
+    "fields": {
+      "id": {
+        "type": "String",
+        "required": true
+      },
+      "text": {
+        "type": "String"
+      },
+      "orderValue": {
+        "type": "Int"
+      },
+      "createUser": {
+        "type": "CreateUser"
+      }
+    },
+    "connector":{
+      "type":"Rubedo",
+      "configs":{
+        "collection":"TaxonomyTerms"
+      }
+    }
   }
+
 }
 

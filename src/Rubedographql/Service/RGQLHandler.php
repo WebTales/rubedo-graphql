@@ -75,6 +75,9 @@ class RGQLHandler
         }
     }
     protected function loadRGQLType($typeName,$type){
+        if (isset($this->rgqlTypes[$typeName])){
+            return;
+        }
         $typeArray=[
             "name"=>$type["name"],
             "fields"=>[]
@@ -126,7 +129,12 @@ class RGQLHandler
     }
 
     protected function buildField($fieldKey,$fieldValue){
+        if (!isset($this->rgqlTypes[$fieldValue["type"]])&&isset($this->rgqlTypeDefs[$fieldValue["type"]])){
+            $this->loadRGQLType($fieldValue["type"],$this->rgqlTypeDefs[$fieldValue["type"]]);
+        }
         $baseTypeResult=$this->rgqlTypes[$fieldValue["type"]];
+
+
         if(isset($fieldValue["multivalued"])&&$fieldValue["multivalued"]){
             $baseTypeResult=Type::listOf($baseTypeResult);
         }
