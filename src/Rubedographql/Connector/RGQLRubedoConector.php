@@ -55,4 +55,16 @@ class RGQLRubedoConnector
       return $result;
     }
 
+    public function execute($configs=[],$args=[],$methodName){
+        if(empty($configs["collection"])){
+            throw new Exception('RGQLRubedoConnector requires a valid collection for write ops');
+        }
+        if(empty($methodName)){
+            throw new Exception('RGQLRubedoConnector requires a valid methodName for write ops');
+        }
+        $service=Manager::getService($configs["collection"]);
+
+        return $service->$methodName($args)["data"];
+    }
+
 }

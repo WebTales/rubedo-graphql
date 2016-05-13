@@ -64,6 +64,9 @@
       "name": {
         "type": "String"
       },
+      "version": {
+        "type": "Int"
+      },
       "multiSelect": {
         "type": "Boolean"
       },
@@ -76,6 +79,28 @@
       "createUser": {
         "type": "CreateUser"
       }
+    },
+    "mutations":{
+        "updateTaxonomy":{
+          "args":{
+            "id": {
+              "type": "String",
+              "required": true
+            },
+            "version": {
+              "type": "Int",
+              "required": true
+            },
+            "name": {
+              "type": "String"
+            },
+            "multiSelect": {
+              "type": "Boolean"
+            }
+          },
+          "type":"Taxonomy",
+          "methodName":"update"
+        }
     },
     "connector":{
       "type":"Rubedo",

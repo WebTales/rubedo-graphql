@@ -127,6 +127,39 @@ class RGQLHandler
                 }
                 $this->rgqlQueryFields[$type["multiEndpoint"]]=$queryArray;
             }
+            if (!empty($type["mutations"])&&is_array($type["mutations"])){
+
+                foreach($type["mutations"] as $mutationKey=>$mutationValue){
+                    if (!isset($this->rgqlTypes[$mutationValue["type"]])&&isset($this->rgqlTypeDefs[$mutationValue["type"]])){
+                        $this->loadRGQLType($mutationValue["type"],$this->rgqlTypeDefs[$mutationValue["type"]]);
+                    }
+                    $mutationResultType=$this->rgqlTypes[$mutationValue["type"]];
+                    if(isset($mutationValue["multivalued"])&&$mutationValue["multivalued"]){
+                        $mutationResultType=Type::listOf($mutationResultType);
+                    }
+                    if(isset($mutationValue["required"])&&$mutationValue["required"]){
+                        $mutationResultType=Type::nonNull($mutationResultType);
+                    }
+                    $muationArray=[
+                        "type"=>$mutationResultType,
+                        "args"=>[]
+                    ];
+                    foreach($mutationValue["args"] as $mutargFieldKey=>$mutargFieldValue){
+                        $muationArray["args"][$mutargFieldKey]=$this->buildField($mutargFieldKey,$mutargFieldValue);
+                    }
+
+                    if(!empty($type["connector"])&&is_array($type["connector"])){
+                        $connectorConfig=$type["connector"]["configs"];
+                        $connectorMethod=$mutationValue["methodName"];
+                        $conectorType=$this->rgqlConnectors[$type["connector"]["type"]];
+                        $muationArray["resolve"]=function ($root, $args) use ($conectorType,$connectorConfig,$connectorMethod){
+                            return Manager::getService($conectorType)->execute($connectorConfig,$args,$connectorMethod);
+                        };
+                    }
+                    $this->rgqlMutationFields[$mutationKey]=$muationArray;
+
+                }
+            }
         }
     }
 
@@ -178,7 +211,12 @@ class RGQLHandler
             'fields' => $this->rgqlQueryFields
         ]);
 
-        $this->schema = new Schema($queryType);
+        $mutationType = new ObjectType([
+            'name' => 'Mutation',
+            'fields' => $this->rgqlMutationFields
+        ]);
+
+        $this->schema = new Schema($queryType,$mutationType);
     }
 
 }
