@@ -14,6 +14,14 @@ class RGQLRubedoConnector
             throw new Exception('RGQLRubedoConnector requires a valid collection or index');
         }
         if (!(empty($configs["collection"]))) {
+          $targetMultiMethod="getList";
+          $targetSingleMethod="findOne";
+            if(!empty($config["singleMethodName"])){
+                $targetSingleMethod=$config["singleMethodName"];
+            }
+            if(!empty($config["multiMethodName"])){
+                $targetMultiMethod=$config["multiMethodName"];
+            }
           $filter=Filter::factory();
           foreach($args as $key=>$value){
               if($key=="id"){
@@ -32,9 +40,10 @@ class RGQLRubedoConnector
           }
           $service=Manager::getService($configs["collection"]);
           if($multivalued){
-              $result=$service->getList($filter)["data"];
+
+              $result=$service->$targetMultiMethod($filter)["data"];
           } else {
-              $result=$service->findOne($filter);
+              $result=$service->$targetSingleMethod($filter);
           }
         }
         if (!(empty($configs["index"]))) {

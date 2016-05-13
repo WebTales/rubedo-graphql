@@ -22,6 +22,8 @@ class RGQLHandler
 
     protected $rgqlQueryFields = [ ];
 
+    protected $rgqlMutationFields = [ ];
+
     protected $rgqlConnectors = [ ];
 
     protected $schema = null;
