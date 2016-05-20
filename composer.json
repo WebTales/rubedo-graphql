@@ -2,18 +2,11 @@
     "name": "webtales/Rubedographql",
     "require": {
         "php": ">=5.3.0",
-        "webtales/alambic": "dev-master"
+        "webonyx/graphql-php": "dev-master"
     },
     "autoload": {
         "classmap": ["src/Rubedographql"]
     },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "git://github.com/WebTales/alambic.git"
-    }
-  ],
-  "minimum-stability": "dev",
   "config": {
     "process-timeout": 600,
     "vendor-dir": "deps"
