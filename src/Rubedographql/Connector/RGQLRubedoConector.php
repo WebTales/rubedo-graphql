@@ -9,7 +9,10 @@ use \Exception;
 
 class RGQLRubedoConnector
 {
-    public function resolve($configs=[],$args=[],$multivalued=false){
+    public function resolve($payload=[]){
+        $configs=isset($payload["configs"]) ? $payload["configs"] : [];
+        $args=isset($payload["args"]) ? $payload["args"] : [];
+        $multivalued=isset($payload["multivalued"]) ? $payload["multivalued"] : false;
         if(empty($configs["collection"])&&empty($configs["index"])){
             throw new Exception('RGQLRubedoConnector requires a valid collection or index');
         }
@@ -55,7 +58,10 @@ class RGQLRubedoConnector
       return $result;
     }
 
-    public function execute($configs=[],$args=[],$methodName){
+    public function execute($payload=[]){
+        $configs=isset($payload["configs"]) ? $payload["configs"] : [];
+        $args=isset($payload["args"]) ? $payload["args"] : [];
+        $methodName=isset($payload["methodName"]) ? $payload["methodName"] : null;
         if(empty($configs["collection"])){
             throw new Exception('RGQLRubedoConnector requires a valid collection for write ops');
         }
