@@ -1,5 +1,12 @@
 {
   "name": "webtales/Rubedographql",
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git://github.com/WebTales/alambic.git"
+    }
+  ],
+  "minimum-stability": "dev",
   "require": {
     "php": ">=5.3.0",
     "webtales/alambic": "dev-master"
@@ -7,12 +14,6 @@
   "autoload": {
     "classmap": ["src/Rubedographql"]
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "git://github.com/WebTales/alambic.git"
-    }
-  ],
   "config": {
     "process-timeout": 600
   }
