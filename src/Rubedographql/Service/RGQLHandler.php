@@ -19,7 +19,8 @@ class RGQLHandler
         if(isset($config["rgqlConnectors"])&&is_array($config["rgqlConnectors"])){
             $alambicConfig["alambicConnectors"]=[];
             foreach($config["rgqlConnectors"] as $key=>$value){
-                $alambicConfig["alambicConnectors"][$key]=Manager::getService($value);
+                $alambicConfig["alambicConnectors"][$key]=$value;
+                $alambicConfig["alambicConnectors"][$key]["obj"]=Manager::getService($value["connectorClass"]);
             }
         }
         if(isset($config["rgqlTypeFiles"])&&is_array($config["rgqlTypeFiles"])){

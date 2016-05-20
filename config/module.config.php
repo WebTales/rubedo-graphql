@@ -14,6 +14,6 @@ return array(
         realpath(__DIR__ . "/rgqlTypes/") . '/defaults.json'
     ),
     'rgqlConnectors'=>array(
-        "Rubedo"=>"RGQLRubedoConnector"
+        "Rubedo"=>array("connectorClass"=>"RGQLRubedoConnector")
     ),
 );
