@@ -13,9 +13,7 @@
       "url": "git://github.com/WebTales/alambic.git"
     }
   ],
-  "minimum-stability": "dev",
   "config": {
-    "process-timeout": 600,
-    "vendor-dir": "deps"
+    "process-timeout": 600
   }
 }
