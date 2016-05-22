@@ -9,6 +9,12 @@ use \Exception;
 
 class RGQLRubedoConnector
 {
+    public function __invoke($payload=[])
+    {
+        return $payload["isMutation"] ? $this->execute($payload) : $this->resolve($payload);
+
+    }
+
     public function resolve($payload=[]){
         $configs=isset($payload["configs"]) ? $payload["configs"] : [];
         $args=isset($payload["args"]) ? $payload["args"] : [];
