@@ -1,15 +1,19 @@
 {
   "Term": {
     "name": "Term",
-    "multiEndpoint": "terms",
     "expose": true,
-    "singleQueryArgs": {
-      "id": {
-        "type": "String",
-        "required": true
-      }
+    "multiEndpoint": {
+      "name":"terms",
+      "args":{}
     },
-    "multiQueryArgs": {
+    "singleEndpoint": {
+      "name":"term",
+      "args":{
+        "id": {
+          "type": "String",
+          "required": true
+        }
+      }
     },
     "fields": {
       "id": {
@@ -35,16 +39,19 @@
   },
   "Taxonomy": {
     "name": "Taxonomy",
-    "singularEndpoint": "taxonomy",
-    "multiEndpoint": "taxonomies",
     "expose": true,
-    "singleQueryArgs": {
-      "id": {
-        "type": "String",
-        "required": true
-      }
+    "multiEndpoint": {
+      "name":"taxonomies",
+      "args":{}
     },
-    "multiQueryArgs": {
+    "singleEndpoint": {
+      "name":"taxonomy",
+      "args":{
+        "id": {
+          "type": "String",
+          "required": true
+        }
+      }
     },
     "fields": {
       "id": {
@@ -106,133 +113,6 @@
       "type":"Rubedo",
       "configs":{
         "collection":"Taxonomy"
-      }
-    }
-  },
-  "User": {
-    "name": "user",
-    "multiEndpoint": "users",
-    "expose": true,
-    "singleQueryArgs": {
-      "id": {
-        "type": "String",
-        "required": true
-      }
-    },
-    "multiQueryArgs": {
-    },
-    "fields": {
-      "id": {
-        "type": "String",
-        "required": true
-      },
-      "name": {
-        "type": "String"
-      },
-      "email": {
-        "type": "String"
-      },
-      "groups":{
-        "type":"Group",
-        "multivalued":true,
-        "relation":{"id":"groups"}
-      }
-    },
-    "connector":{
-      "type":"Rubedo",
-      "configs":{
-        "collection":"Users"
-      }
-    }
-  },
-  "Group": {
-    "name": "Group",
-    "multiEndpoint": "groups",
-    "expose": true,
-    "singleQueryArgs": {
-      "id": {
-        "type": "String",
-        "required": true
-      }
-    },
-    "multiQueryArgs": {
-    },
-    "fields": {
-      "id": {
-        "type": "String",
-        "required": true
-      },
-      "name": {
-        "type": "String"
-      }
-    },
-    "connector":{
-      "type":"Rubedo",
-      "configs":{
-        "collection":"Groups"
-      }
-    }
-  },
-  "Search": {
-    "name": "search",
-    "multiEndpoint": "searches",
-    "expose": true,
-    "singleQueryArgs": {
-    },
-    "multiQueryArgs": {
-      "query": {
-        "type": "String",
-        "required": false
-      }
-    },
-    "fields": {
-      "id": {
-        "type": "String"
-      },
-      "type": {
-        "type":"ContentType",
-        "multivalued":false,
-        "relation":{"id":"typeId"}
-      },
-      "title": {
-        "type": "String"
-      },
-      "score": {
-        "type": "Float"
-      }
-    },
-    "connector":{
-      "type":"Rubedo",
-      "configs":{
-        "index":"all"
-      }
-    }
-  },
-  "ContentType": {
-    "name": "contentType",
-    "multiEndpoint": "contentTypes",
-    "expose": true,
-    "singleQueryArgs": {
-      "id": {
-        "type": "String",
-        "required": true
-      }
-    },
-    "multiQueryArgs": {
-    },
-    "fields": {
-      "id": {
-        "type": "String",
-        "required": true
-      },
-      "code": {
-        "type": "String"
-      }
-    },
-    "connector":{
-      "type":"Rubedo",
-      "configs":{
-        "collection":"ContentTypes"
       }
     }
   }

@@ -19,12 +19,10 @@ class RGQLRubedoConnector
         if (!(empty($configs["collection"]))) {
           $targetMultiMethod="getList";
           $targetSingleMethod="findOne";
-            if(!empty($config["singleMethodName"])){
-                $targetSingleMethod=$config["singleMethodName"];
-            }
-            if(!empty($config["multiMethodName"])){
-                $targetMultiMethod=$config["multiMethodName"];
-            }
+          if(!empty($payload["methodName"])){
+              $targetMultiMethod=$payload["methodName"];
+              $targetSingleMethod=$payload["methodName"];
+          }
           $filter=Filter::factory();
           foreach($args as $key=>$value){
               if($key=="id"){
