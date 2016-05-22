@@ -42,6 +42,9 @@
     "expose": true,
     "multiEndpoint": {
       "name":"taxonomies",
+      "prePipeline":[],
+      "postPipeline":[],
+      "pipelineParams":{},
       "args":{}
     },
     "singleEndpoint": {
