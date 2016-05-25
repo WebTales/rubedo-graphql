@@ -18,6 +18,12 @@ return array(
             "connectorClass"=>"Rubedographql\\Connector\\RGQLRubedoConnector",
             "prePipeline"=>array(),
             "postPipeline"=>array(),
+        ),
+        "Json"=>array(
+            "connectorClass"=>"Alambic\\Connector\\Json",
+            "basePath"=>realpath(__DIR__ . "/data/")."/",
+            "prePipeline"=>array(),
+            "postPipeline"=>array(),
         )
     ),
 );
