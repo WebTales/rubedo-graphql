@@ -47,8 +47,14 @@ class RGQLRubedoConnector
           }
           $service=Manager::getService($configs["collection"]);
           if($multivalued){
-
-              $result=$service->$targetMultiMethod($filter)["data"];
+              $sort=null;
+              if(!empty($payload["pipelineParams"]["orderBy"])){
+                  $direction=!empty($payload["pipelineParams"]["orderByDirection"])&&($payload["pipelineParams"]["orderByDirection"]==-"desc") ? -1 : 1;
+                  $sort=[$payload["pipelineParams"]["orderBy"]=>$direction];
+              }
+              $start=!empty($payload["pipelineParams"]["start"]) ? $payload["pipelineParams"]["start"] : null;
+              $limit=!empty($payload["pipelineParams"]["limit"]) ? $payload["pipelineParams"]["limit"] : null;
+              $result=$service->$targetMultiMethod($filter,$sort,$start,$limit)["data"];
           } else {
               $result=$service->$targetSingleMethod($filter);
           }

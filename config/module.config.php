@@ -24,6 +24,11 @@ return array(
             "basePath"=>realpath(__DIR__ . "/data/")."/",
             "prePipeline"=>array(),
             "postPipeline"=>array(),
+        ),
+        "MongoDB"=>array(
+            "connectorClass"=>"AlambicMongodbConnector\\Connector",
+            "prePipeline"=>array(),
+            "postPipeline"=>array(),
         )
     ),
 );
