@@ -3,7 +3,8 @@
   "minimum-stability": "dev",
   "require": {
     "php": ">=5.3.0",
-    "webtales/alambic": "dev-master"
+    "webtales/alambic": "dev-master",
+    "webtales/alambic-connector-mongodb": "dev-master"
   },
   "autoload": {
     "classmap": ["src/Rubedographql"]
