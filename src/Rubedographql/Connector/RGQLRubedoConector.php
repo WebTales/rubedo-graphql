@@ -65,7 +65,8 @@ class RGQLRubedoConnector
           $result=$query->search($args,"all");
           $result = $result["data"];
         }
-      return $result;
+        $payload["response"]=$result;
+        return $payload;
     }
 
     public function execute($payload=[]){
@@ -80,7 +81,8 @@ class RGQLRubedoConnector
         }
         $service=Manager::getService($configs["collection"]);
 
-        return $service->$methodName($args)["data"];
+        $payload["response"]=$service->$methodName($args)["data"];
+        return $payload;
     }
 
 }
