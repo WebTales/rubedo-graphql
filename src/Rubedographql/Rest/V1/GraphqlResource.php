@@ -81,7 +81,7 @@ class GraphqlResource extends AbstractResource
         $requestString = isset($params['query']) ? $params['query'] : null;
         $operationName = isset($params['operation']) ? $params['operation'] : null;
         $variableValues = isset($params['variables']) ? $params['variables'] : null;
-        $result=Manager::getService("RGQLHandler")->execute($requestString,$variableValues,$operationName);
+        $result=Manager::getService("RGQLHandler")->execute($requestString,$variableValues,$operationName,$params);
         header('Content-Type: application/json');
         echo json_encode($result);
         die();

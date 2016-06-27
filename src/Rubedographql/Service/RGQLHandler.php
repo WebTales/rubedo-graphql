@@ -32,7 +32,8 @@ class RGQLHandler
         $this->alambic=new Alambic($alambicConfig);
     }
 
-    public function execute($requestString=null,$variableValues=null,$operationName=null){
+    public function execute($requestString=null,$variableValues=null,$operationName=null,$params=[]){
+        $this->alambic->setSharedPipelineContext($params);
         return $this->alambic->execute($requestString,$variableValues,$operationName);
 
     }
